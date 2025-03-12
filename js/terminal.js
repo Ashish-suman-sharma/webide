@@ -215,7 +215,51 @@ class Terminal {
 // Initialize terminal when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   // Terminal will be initialized by main.js
+  initTerminalResize();
 });
+
+// Terminal resize functionality
+function initTerminalResize() {
+  const terminalPanel = document.querySelector(".terminal-panel");
+  const resizeHandle = document.querySelector(".terminal-resize-handle");
+
+  if (!resizeHandle || !terminalPanel) return;
+
+  let startY, startHeight;
+
+  // Mouse down event on resize handle
+  resizeHandle.addEventListener("mousedown", (e) => {
+    startY = e.clientY;
+    startHeight = parseInt(getComputedStyle(terminalPanel).height, 10);
+    resizeHandle.classList.add("dragging");
+
+    document.addEventListener("mousemove", mouseMove);
+    document.addEventListener("mouseup", mouseUp);
+
+    // Prevent text selection during dragging
+    e.preventDefault();
+  });
+
+  function mouseMove(e) {
+    // Calculate new height based on mouse movement
+    const deltaY = startY - e.clientY;
+    const newHeight = startHeight + deltaY;
+
+    // Minimum and maximum height constraints
+    const minHeight = 100;
+    const maxHeight = window.innerHeight - 200;
+
+    if (newHeight >= minHeight && newHeight <= maxHeight) {
+      terminalPanel.style.height = newHeight + "px";
+    }
+  }
+
+  function mouseUp() {
+    resizeHandle.classList.remove("dragging");
+    document.removeEventListener("mousemove", mouseMove);
+    document.removeEventListener("mouseup", mouseUp);
+  }
+}
 
 // Export the Terminal class
 window.Terminal = Terminal;

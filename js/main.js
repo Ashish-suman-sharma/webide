@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initStatusBar();
   initContextMenus();
   initWelcomePage();
+  initFileDragAndDrop();
   restoreOpenFilesFromLocalStorage();
 });
 
@@ -659,3 +660,101 @@ document.addEventListener("keydown", (e) => {
     }
   }
 });
+
+// Initialize drag and drop functionality for files
+function initFileDragAndDrop() {
+  const dropOverlay = document.querySelector(".file-drop-overlay");
+  const editor = document.querySelector(".editor-container");
+
+  // Show overlay when files are dragged over the window
+  window.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Only show overlay for file drag operations
+    if (e.dataTransfer.types.includes("Files")) {
+      dropOverlay.classList.add("active");
+    }
+  });
+
+  // Hide overlay when drag leaves the window
+  window.addEventListener("dragleave", (e) => {
+    // Only hide if leaving to outside the window
+    if (
+      e.clientX <= 0 ||
+      e.clientY <= 0 ||
+      e.clientX >= window.innerWidth ||
+      e.clientY >= window.innerHeight
+    ) {
+      dropOverlay.classList.remove("active");
+    }
+  });
+
+  // Handle drop event
+  window.addEventListener("drop", async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Hide the overlay
+    dropOverlay.classList.remove("active");
+
+    // Process dropped files
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      await handleDroppedFiles(e.dataTransfer.files);
+    }
+  });
+
+  // Handle file paste from clipboard
+  document.addEventListener("paste", async (e) => {
+    if (
+      e.clipboardData &&
+      e.clipboardData.files &&
+      e.clipboardData.files.length > 0
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+      await handleDroppedFiles(e.clipboardData.files);
+    }
+  });
+}
+
+// Handle dropped files
+async function handleDroppedFiles(files) {
+  // Show loading notification
+  showNotification("Processing files...");
+
+  for (const file of files) {
+    try {
+      // Read file content
+      const content = await readFileContent(file);
+
+      // Create in-memory file with the content
+      fileContents[file.name] = content;
+
+      // Open file in editor
+      openFile(file.name);
+
+      showNotification(`Opened file: ${file.name}`);
+    } catch (error) {
+      console.error("Error handling dropped file:", error);
+      showNotification(`Error opening ${file.name}: ${error.message}`, 5000);
+    }
+  }
+}
+
+// Read file content as text
+function readFileContent(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      resolve(event.target.result);
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    reader.readAsText(file);
+  });
+}

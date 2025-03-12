@@ -129,10 +129,27 @@ body {
     background-color: var(--vscode-terminal-bg);
     border-top: 1px solid var(--vscode-border);
     display: none;
+    transition: height 0.1s ease;
 }
 
 .terminal-panel.show {
     display: block;
+}
+
+/* Terminal resize handle */
+.terminal-resize-handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    cursor: ns-resize;
+}
+
+.terminal-resize-handle:hover,
+.terminal-resize-handle.dragging {
+    background-color: var(--vscode-statusbar-bg);
+    opacity: 0.5;
 }
 
 .terminal-header {
@@ -243,4 +260,39 @@ body {
     50% {
         opacity: 0;
     }
+}
+
+/* Drag and drop file overlay */
+.file-drop-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: none;
+}
+
+.file-drop-overlay.active {
+    display: flex;
+}
+
+.file-drop-message {
+    padding: 40px;
+    background-color: var(--vscode-editor-bg);
+    border: 2px dashed var(--vscode-statusbar-bg);
+    color: var(--vscode-text);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.file-drop-message i {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: var(--vscode-statusbar-bg);
 }
