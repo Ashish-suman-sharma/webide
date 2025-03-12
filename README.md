@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Web IDE with Local Terminal Integration
 
-## Getting Started
+This is a web-based IDE with a terminal that connects to your local machine, allowing you to compile and run code directly from the browser.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Monaco Editor Integration**: Uses the same editor that powers VS Code
+- **File Explorer**: Browse, create, rename, and delete files and folders
+- **Terminal with local machine access**: Compile and run code directly from the browser
+- **Syntax highlighting**: Highlight code syntax
+- **Dark theme**: Classic VS Code dark theme styling
+
+## Setup and Installation
+
+1. Make sure you have Node.js installed on your machine
+2. Clone this repository
+3. Install dependencies:
+   ```
+   npm install
+   ```
+4. Start the server:
+   ```
+   npm start
+   ```
+5. Open your browser and navigate to `http://localhost:3000`
+
+## Using the Terminal
+
+The terminal in this Web IDE connects directly to your local machine, allowing you to:
+
+1. Compile code using local compilers
+2. Run build tools
+3. Execute any command that you would normally run in your system's terminal
+
+To use the terminal:
+
+1. Click on the terminal icon in the status bar or press `` Ctrl+` `` to open the terminal panel
+2. Type your commands as you would in a regular terminal
+3. Press Enter to execute commands
+4. Use Up/Down arrow keys to navigate through command history
+
+Example commands:
+
+- `gcc -o myprogram myprogram.c` - Compile a C program
+- `python script.py` - Run a Python script
+- `npm run build` - Run an npm script
+
+## Security Note
+
+Since the terminal has access to your local machine, be careful when using this in a shared environment. The server should only be run locally and not exposed to the internet.
+
+## License
+
+MIT
+
+## Technologies Used
+
+- **HTML5**: Structure of the application
+- **CSS3**: Styling and layout
+- **JavaScript**: Core functionality and interactivity
+- **Monaco Editor**: Code editing capabilities
+- **Font Awesome**: Icons for the interface
+
+## Project Structure
+
+```
+webide/
+├── index.html          # Main HTML file
+├── css/                # CSS styles
+│   ├── style.css       # Global styles
+│   ├── sidebar.css     # Sidebar styles
+│   ├── editor.css      # Editor styles
+│   └── statusbar.css   # Status bar styles
+├── js/                 # JavaScript files
+│   ├── main.js         # Main application logic
+│   ├── sidebar.js      # Sidebar functionality
+│   ├── editor.js       # Editor functionality
+│   └── fileExplorer.js # File explorer functionality
+└── assets/             # Assets directory
+    ├── icons/          # Icon files
+    └── fonts/          # Font files
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Limitations
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This is a demonstration project and has the following limitations:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Files are stored in memory and will be lost on page refresh
+- No server-side functionality for persistent storage
+- Limited language support compared to the full VS Code
+- Some advanced features are simulated or not implemented
 
-## Learn More
+## Future Enhancements
 
-To learn more about Next.js, take a look at the following resources:
+- Add persistent storage using IndexedDB or localStorage
+- Implement more VS Code features (extensions, debugging)
+- Add more themes and customization options
+- Improve terminal functionality
+- Add collaborative editing features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Acknowledgements
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Microsoft for creating Visual Studio Code
+- Monaco Editor team for making the editor available as a standalone component
+- Font Awesome for the icons

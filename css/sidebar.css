@@ -1,0 +1,204 @@
+/* Sidebar Styles */
+.sidebar {
+    grid-column: 2;
+    grid-row: 1;
+    background-color: var(--vscode-sidebar-bg);
+    border-right: 1px solid var(--vscode-border);
+    overflow: hidden;
+    position: relative;
+}
+
+.panel {
+    display: none;
+    height: 100%;
+    overflow: auto;
+}
+
+.panel.active-panel {
+    display: block;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--vscode-inactive-text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.panel-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.panel-actions i {
+    cursor: pointer;
+    color: var(--vscode-inactive-text);
+}
+
+.panel-actions i:hover {
+    color: var(--vscode-text);
+}
+
+/* File Explorer Styles */
+.file-explorer {
+    padding: 5px 0;
+}
+
+.folder-item,
+.file-item {
+    padding: 3px 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.folder-header,
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 3px 10px;
+}
+
+.folder-header:hover,
+.file-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.folder-header i,
+.file-item i {
+    margin-right: 5px;
+    width: 16px;
+    text-align: center;
+}
+
+.folder-content {
+    padding-left: 12px;
+}
+
+.folder-item:not(.open) .folder-content {
+    display: none;
+}
+
+.folder-item.open>.folder-header>i.fa-chevron-right {
+    transform: rotate(90deg);
+}
+
+.folder-item i.fa-folder-open {
+    color: #dcb67a;
+}
+
+.folder-item i.fa-folder {
+    color: #dcb67a;
+}
+
+.file-item i.fa-file-code {
+    color: #6a9955;
+}
+
+/* Empty Explorer Message Styles */
+.empty-explorer-message {
+    padding: 20px;
+    text-align: center;
+    color: var(--vscode-inactive-text);
+}
+
+.explorer-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.explorer-btn {
+    background-color: var(--vscode-sidebar-bg);
+    color: var(--vscode-text);
+    border: 1px solid var(--vscode-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.explorer-btn:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+.explorer-btn i {
+    font-size: 14px;
+}
+
+/* Search Panel Styles */
+.search-container {
+    padding: 10px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 5px;
+    background-color: #3c3c3c;
+    border: 1px solid #3c3c3c;
+    color: var(--vscode-text);
+    outline: none;
+}
+
+.search-container input:focus {
+    border-color: var(--vscode-statusbar-bg);
+}
+
+.search-options {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.search-option {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: var(--vscode-inactive-text);
+    cursor: pointer;
+}
+
+.search-option i {
+    margin-right: 5px;
+    width: 16px;
+    text-align: center;
+}
+
+/* Git Panel Styles */
+.git-content,
+.debug-content {
+    padding: 20px;
+    font-size: 13px;
+    color: var(--vscode-inactive-text);
+    text-align: center;
+}
+
+/* Extensions Panel Styles */
+.extensions-search {
+    padding: 10px;
+}
+
+.extensions-search input {
+    width: 100%;
+    padding: 5px;
+    background-color: #3c3c3c;
+    border: 1px solid #3c3c3c;
+    color: var(--vscode-text);
+    outline: none;
+}
+
+.extensions-list {
+    padding: 20px;
+    font-size: 13px;
+    color: var(--vscode-inactive-text);
+    text-align: center;
+}

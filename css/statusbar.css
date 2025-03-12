@@ -1,0 +1,101 @@
+/* Status Bar Styles */
+.status-bar {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+    background-color: var(--vscode-statusbar-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    color: white;
+    height: 22px;
+}
+
+.status-left,
+.status-right {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.status-item:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.status-item i {
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+/* Status Bar Notifications */
+.status-notification {
+    position: relative;
+}
+
+.status-notification::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    background-color: #ff5252;
+    border-radius: 50%;
+}
+
+/* Status Bar Dropdown */
+.status-dropdown {
+    position: absolute;
+    bottom: 22px;
+    background-color: var(--vscode-sidebar-bg);
+    border: 1px solid var(--vscode-border);
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+}
+
+.status-dropdown.show {
+    display: block;
+}
+
+.status-dropdown-header {
+    padding: 8px 10px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--vscode-border);
+    color: var(--vscode-text);
+}
+
+.status-dropdown-item {
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    color: var(--vscode-text);
+    cursor: pointer;
+}
+
+.status-dropdown-item:hover {
+    background-color: var(--vscode-highlight);
+}
+
+.status-dropdown-item i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+.status-dropdown-separator {
+    height: 1px;
+    background-color: var(--vscode-border);
+    margin: 5px 0;
+}

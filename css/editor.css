@@ -1,0 +1,274 @@
+/* Editor Styles */
+.editor-container {
+    grid-column: 3;
+    grid-row: 1;
+    background-color: var(--vscode-editor-bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Editor Tabs Styles */
+.editor-tabs {
+    display: flex;
+    background-color: var(--vscode-sidebar-bg);
+    border-bottom: 1px solid var(--vscode-border);
+    height: 35px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    white-space: nowrap;
+}
+
+.editor-tabs::-webkit-scrollbar {
+    height: 3px;
+}
+
+.editor-tabs::-webkit-scrollbar-track {
+    background: var(--vscode-sidebar-bg);
+}
+
+.editor-tabs::-webkit-scrollbar-thumb {
+    background-color: var(--vscode-border);
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    height: 35px;
+    min-width: 100px;
+    max-width: 200px;
+    background-color: var(--vscode-inactive-tab);
+    color: var(--vscode-inactive-text);
+    border-right: 1px solid var(--vscode-border);
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    font-size: 13px;
+}
+
+.tab.active {
+    background-color: var(--vscode-active-tab);
+    color: var(--vscode-text);
+}
+
+.tab span {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1;
+}
+
+/* Unsaved indicator */
+.tab.unsaved span::after {
+    content: '•';
+    margin-left: 5px;
+    color: #cccccc;
+}
+
+.tab.unsaved::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    right: 25px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #007acc;
+}
+
+.tab i {
+    margin-left: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.tab:hover i {
+    opacity: 1;
+}
+
+.tab.active i {
+    opacity: 0.7;
+}
+
+.tab.active i:hover {
+    opacity: 1;
+}
+
+#monaco-editor {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    display: none;
+}
+
+#monaco-editor.show-editor {
+    display: block;
+}
+
+/* Monaco Editor Overrides */
+.monaco-editor .margin {
+    background-color: var(--vscode-editor-bg) !important;
+}
+
+.monaco-editor .monaco-scrollable-element .scrollbar {
+    background-color: rgba(121, 121, 121, 0.4) !important;
+}
+
+/* Welcome Page Styles */
+.welcome-page {
+    position: absolute;
+    top: 35px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--vscode-editor-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    display: none;
+}
+
+.welcome-page.show-welcome {
+    display: flex;
+}
+
+.welcome-content {
+    max-width: 600px;
+    text-align: center;
+    padding: 20px;
+}
+
+.welcome-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--vscode-text);
+}
+
+.welcome-content p {
+    font-size: 1.2rem;
+    color: var(--vscode-inactive-text);
+    margin-bottom: 2rem;
+}
+
+.welcome-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+    margin: 0 auto;
+}
+
+.welcome-btn {
+    background-color: var(--vscode-sidebar-bg);
+    color: var(--vscode-text);
+    border: 1px solid var(--vscode-border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.welcome-btn:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+.welcome-btn i {
+    font-size: 16px;
+}
+
+/* Editor Widgets */
+.editor-widget {
+    position: absolute;
+    z-index: 10;
+    background-color: var(--vscode-sidebar-bg);
+    border: 1px solid var(--vscode-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color: var(--vscode-text);
+    font-size: 14px;
+}
+
+/* Editor Widgets (like context menu) */
+.editor-widget {
+    position: absolute;
+    background-color: var(--vscode-sidebar-bg);
+    border: 1px solid var(--vscode-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+}
+
+.suggestion-widget {
+    max-width: 660px;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.suggestion-item {
+    padding: 5px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.suggestion-item:hover,
+.suggestion-item.selected {
+    background-color: var(--vscode-highlight);
+}
+
+.suggestion-icon {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.suggestion-text {
+    flex: 1;
+}
+
+.suggestion-type {
+    color: var(--vscode-inactive-text);
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+/* Context Menu */
+.context-menu {
+    min-width: 160px;
+    max-width: 300px;
+    font-size: 13px;
+    color: var(--vscode-text);
+    padding: 5px 0;
+}
+
+.context-menu-item {
+    padding: 6px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.context-menu-item:hover {
+    background-color: var(--vscode-highlight);
+}
+
+.context-menu-item i {
+    width: 16px;
+    margin-right: 8px;
+    text-align: center;
+}
+
+.context-menu-separator {
+    height: 1px;
+    background-color: var(--vscode-border);
+    margin: 5px 0;
+}
