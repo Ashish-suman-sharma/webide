@@ -349,6 +349,11 @@ function openFile(fileName) {
 
   // Update status bar
   updateStatusBar();
+
+  // Update run button based on file extension
+  if (typeof updateRunButton === "function") {
+    updateRunButton();
+  }
 }
 
 // Initialize Editor Tabs

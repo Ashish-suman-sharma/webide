@@ -511,7 +511,7 @@ async function createNewFile(fileName, parentFolder) {
     // Determine file icon based on extension
     const extension = fileName.split(".").pop().toLowerCase();
     let fileIcon = getFileIconByExtension(extension);
-    
+
     fileItem.innerHTML = `
       <i class="fas ${fileIcon}"></i>
       <span>${fileName}</span>
@@ -737,12 +737,16 @@ async function createNewFolder(folderName, parentFolder) {
 function getFileIconByExtension(extension) {
   // Default icon
   let fileIcon = "fa-file-code";
-  
+
   // Image files
-  if (["jpg", "jpeg", "png", "gif", "svg", "webp", "bmp", "ico"].includes(extension)) {
+  if (
+    ["jpg", "jpeg", "png", "gif", "svg", "webp", "bmp", "ico"].includes(
+      extension
+    )
+  ) {
     return "fa-file-image";
   }
-  
+
   // Document files
   if (["pdf"].includes(extension)) {
     return "fa-file-pdf";
@@ -756,12 +760,12 @@ function getFileIconByExtension(extension) {
   if (["ppt", "pptx", "odp"].includes(extension)) {
     return "fa-file-powerpoint";
   }
-  
+
   // Archive files
   if (["zip", "rar", "7z", "tar", "gz", "bz2"].includes(extension)) {
     return "fa-file-archive";
   }
-  
+
   // Media files
   if (["mp3", "wav", "ogg", "flac", "aac"].includes(extension)) {
     return "fa-file-audio";
@@ -769,59 +773,59 @@ function getFileIconByExtension(extension) {
   if (["mp4", "avi", "mov", "wmv", "mkv", "webm"].includes(extension)) {
     return "fa-file-video";
   }
-  
+
   // Text files
   if (["txt", "md", "markdown", "log"].includes(extension)) {
     return "fa-file-alt";
   }
-  
+
   // Programming language files - specialized icons
   const langIcons = {
     // Web
-    "html": "fa-html5",
-    "htm": "fa-html5",
-    "css": "fa-css3-alt",
-    "js": "fa-js",
-    "jsx": "fa-react",
-    "ts": "fa-file-code ts-icon",
-    "tsx": "fa-react ts-icon",
-    
+    html: "fa-html5",
+    htm: "fa-html5",
+    css: "fa-css3-alt",
+    js: "fa-js",
+    jsx: "fa-react",
+    ts: "fa-file-code ts-icon",
+    tsx: "fa-react ts-icon",
+
     // Backend/Server
-    "php": "fa-php",
-    "py": "fa-python",
-    "java": "fa-java",
-    "rb": "fa-gem", // Ruby
-    "go": "fa-file-code go-icon",
-    "cs": "fa-microsoft",
-    "vb": "fa-microsoft",
-    
+    php: "fa-php",
+    py: "fa-python",
+    java: "fa-java",
+    rb: "fa-gem", // Ruby
+    go: "fa-file-code go-icon",
+    cs: "fa-microsoft",
+    vb: "fa-microsoft",
+
     // Configuration
-    "json": "fa-brands fa-js json-icon", // Updated JSON icon
-    "xml": "fa-file-code xml-icon",
-    "yaml": "fa-file-code yaml-icon",
-    "yml": "fa-file-code yaml-icon",
-    "toml": "fa-file-code",
-    "ini": "fa-file-code",
-    "config": "fa-cog",
-    
+    json: "fa-brands fa-js json-icon", // Updated JSON icon
+    xml: "fa-file-code xml-icon",
+    yaml: "fa-file-code yaml-icon",
+    yml: "fa-file-code yaml-icon",
+    toml: "fa-file-code",
+    ini: "fa-file-code",
+    config: "fa-cog",
+
     // Shell/Scripts
-    "sh": "fa-terminal",
-    "bash": "fa-terminal",
-    "bat": "fa-terminal",
-    "ps1": "fa-terminal", // PowerShell
-    "cmd": "fa-terminal",
-    
+    sh: "fa-terminal",
+    bash: "fa-terminal",
+    bat: "fa-terminal",
+    ps1: "fa-terminal", // PowerShell
+    cmd: "fa-terminal",
+
     // Database
-    "sql": "fa-database",
-    "sqlite": "fa-database",
-    "db": "fa-database",
-    
+    sql: "fa-database",
+    sqlite: "fa-database",
+    db: "fa-database",
+
     // C family
-    "c": "fa-file-code c-icon",
-    "cpp": "fa-file-code cpp-icon",
-    "h": "fa-file-code c-icon",
-    "hpp": "fa-file-code cpp-icon"
+    c: "fa-file-code c-icon",
+    cpp: "fa-file-code cpp-icon",
+    h: "fa-file-code c-icon",
+    hpp: "fa-file-code cpp-icon",
   };
-  
+
   return langIcons[extension] || fileIcon;
 }

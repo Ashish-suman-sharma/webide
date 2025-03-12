@@ -303,6 +303,144 @@
     outline: none;
 }
 
+.extensions-search input:focus {
+    border-color: var(--vscode-statusbar-bg);
+}
+
+.extensions-list {
+    padding: 20px;
+    font-size: 13px;
+    color: var(--vscode-inactive-text);
+    text-align: center;
+}
+
+.extensions-list {
+    padding: 10px;
+    font-size: 13px;
+    color: var(--vscode-text);
+}
+
+.extension-item {
+    padding: 10px;
+    border-bottom: 1px solid var(--vscode-border);
+    margin-bottom: 10px;
+}
+
+.extension-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.extension-header i {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #007acc;
+}
+
+.extension-info {
+    flex: 1;
+}
+
+.extension-name {
+    font-weight: bold;
+}
+
+.extension-publisher {
+    font-size: 11px;
+    color: var(--vscode-inactive-text);
+}
+
+.extension-version {
+    font-size: 11px;
+    color: var(--vscode-inactive-text);
+}
+
+.extension-description {
+    font-size: 12px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.extension-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.extension-config-btn {
+    background: none;
+    border: none;
+    color: var(--vscode-text);
+    cursor: pointer;
+}
+
+.extension-toggle .switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 16px;
+}
+
+.extension-toggle .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.extension-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #2b2b2b;
+    transition: .4s;
+}
+
+.extension-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--vscode-inactive-text);
+    transition: .4s;
+}
+
+.extension-toggle input:checked + .slider {
+    background-color: #007acc;
+}
+
+.extension-toggle input:checked + .slider:before {
+    transform: translateX(14px);
+    background-color: white;
+}
+
+.extension-toggle .slider.round {
+    border-radius: 16px;
+}
+
+.extension-toggle .slider.round:before {
+    border-radius: 50%;
+}
+
+/* Extensions Panel Styles */
+.extensions-search {
+    padding: 10px;
+}
+
+.extensions-search input {
+    width: 100%;
+    padding: 5px;
+    background-color: #3c3c3c;
+    border: 1px solid #3c3c3c;
+    color: var(--vscode-text);
+    outline: none;
+}
+
 .extensions-list {
     padding: 20px;
     font-size: 13px;

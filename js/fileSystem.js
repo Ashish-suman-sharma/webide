@@ -412,12 +412,16 @@ async function loadDirectoryContents(directoryHandle, parentElement, path) {
 function getFileIconByExtension(extension) {
   // Default icon
   let fileIcon = "fa-file-code";
-  
+
   // Image files
-  if (["jpg", "jpeg", "png", "gif", "svg", "webp", "bmp", "ico"].includes(extension)) {
+  if (
+    ["jpg", "jpeg", "png", "gif", "svg", "webp", "bmp", "ico"].includes(
+      extension
+    )
+  ) {
     return "fa-file-image";
   }
-  
+
   // Document files
   if (["pdf"].includes(extension)) {
     return "fa-file-pdf";
@@ -431,12 +435,12 @@ function getFileIconByExtension(extension) {
   if (["ppt", "pptx", "odp"].includes(extension)) {
     return "fa-file-powerpoint";
   }
-  
+
   // Archive files
   if (["zip", "rar", "7z", "tar", "gz", "bz2"].includes(extension)) {
     return "fa-file-zipper";
   }
-  
+
   // Media files
   if (["mp3", "wav", "ogg", "flac", "aac"].includes(extension)) {
     return "fa-file-audio";
@@ -444,60 +448,60 @@ function getFileIconByExtension(extension) {
   if (["mp4", "avi", "mov", "wmv", "mkv", "webm"].includes(extension)) {
     return "fa-file-video";
   }
-  
+
   // Text files
   if (["txt", "md", "markdown", "log"].includes(extension)) {
     return "fa-file-lines";
   }
-  
+
   // Programming language files - specialized icons
   const langIcons = {
     // Web
-    "html": "devicon-html5-plain colored",
-    "htm": "devicon-html5-plain colored",
-    "css": "devicon-css3-plain colored",
-    "js": "devicon-javascript-plain colored",
-    "jsx": "devicon-react-original colored",
-    "ts": "devicon-typescript-plain colored",
-    "tsx": "devicon-react-original colored",
-    
+    html: "devicon-html5-plain colored",
+    htm: "devicon-html5-plain colored",
+    css: "devicon-css3-plain colored",
+    js: "devicon-javascript-plain colored",
+    jsx: "devicon-react-original colored",
+    ts: "devicon-typescript-plain colored",
+    tsx: "devicon-react-original colored",
+
     // Backend/Server
-    "php": "devicon-php-plain colored",
-    "py": "devicon-python-plain colored",
-    "java": "devicon-java-plain colored",
-    "rb": "devicon-ruby-plain colored",
-    "go": "devicon-go-plain colored",
-    "cs": "devicon-csharp-plain colored",
-    "vb": "devicon-dot-net-plain colored",
-    
+    php: "devicon-php-plain colored",
+    py: "devicon-python-plain colored",
+    java: "devicon-java-plain colored",
+    rb: "devicon-ruby-plain colored",
+    go: "devicon-go-plain colored",
+    cs: "devicon-csharp-plain colored",
+    vb: "devicon-dot-net-plain colored",
+
     // Configuration
-    "json": "fa-brands fa-js json-icon", // Updated JSON icon
-    "xml": "fa-solid fa-code",
-    "yaml": "fa-solid fa-file-code yaml-icon",
-    "yml": "fa-solid fa-file-code yaml-icon",
-    "toml": "fa-solid fa-file-code",
-    "ini": "fa-solid fa-file-lines",
-    "config": "fa-solid fa-gears",
-    
+    json: "fa-brands fa-js json-icon", // Updated JSON icon
+    xml: "fa-solid fa-code",
+    yaml: "fa-solid fa-file-code yaml-icon",
+    yml: "fa-solid fa-file-code yaml-icon",
+    toml: "fa-solid fa-file-code",
+    ini: "fa-solid fa-file-lines",
+    config: "fa-solid fa-gears",
+
     // Shell/Scripts
-    "sh": "fa-solid fa-terminal",
-    "bash": "fa-solid fa-terminal",
-    "bat": "fa-solid fa-terminal",
-    "ps1": "fa-brands fa-windows", 
-    "cmd": "fa-brands fa-windows",
-    
+    sh: "fa-solid fa-terminal",
+    bash: "fa-solid fa-terminal",
+    bat: "fa-solid fa-terminal",
+    ps1: "fa-brands fa-windows",
+    cmd: "fa-brands fa-windows",
+
     // Database
-    "sql": "devicon-mysql-plain colored",
-    "sqlite": "fa-solid fa-database",
-    "db": "fa-solid fa-database",
-    
+    sql: "devicon-mysql-plain colored",
+    sqlite: "fa-solid fa-database",
+    db: "fa-solid fa-database",
+
     // C family
-    "c": "devicon-c-plain colored",
-    "cpp": "devicon-cplusplus-plain colored",
-    "h": "devicon-c-plain colored",
-    "hpp": "devicon-cplusplus-plain colored"
+    c: "devicon-c-plain colored",
+    cpp: "devicon-cplusplus-plain colored",
+    h: "devicon-c-plain colored",
+    hpp: "devicon-cplusplus-plain colored",
   };
-  
+
   return langIcons[extension] || "fa-solid " + fileIcon;
 }
 
