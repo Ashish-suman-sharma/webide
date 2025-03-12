@@ -28,7 +28,7 @@ app.post("/execute-command", (req, res) => {
       maxBuffer: 1024 * 1024,
       shell: true,
       windowsHide: true,
-      cwd: cwd ? path.join(__dirname, cwd) : __dirname // Use the provided working directory
+      cwd: cwd ? path.join(__dirname, cwd) : __dirname, // Use the provided working directory
     },
     (error, stdout, stderr) => {
       console.log(

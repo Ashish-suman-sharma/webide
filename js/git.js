@@ -10,7 +10,7 @@ const gitState = {
   },
   branches: [],
   remotes: {},
-  initialized: false
+  initialized: false,
 };
 
 // Initialize git functionality
@@ -24,9 +24,11 @@ function initGitPanel() {
   if (!gitPanel) return;
 
   // Add click event to git activity icon
-  const gitActivityIcon = document.querySelector('.activity-icon[data-panel="git"]');
+  const gitActivityIcon = document.querySelector(
+    '.activity-icon[data-panel="git"]'
+  );
   if (gitActivityIcon) {
-    gitActivityIcon.addEventListener('click', refreshGitPanel);
+    gitActivityIcon.addEventListener("click", refreshGitPanel);
   }
 
   // Initial check for Git repository
@@ -47,7 +49,7 @@ async function refreshGitPanel() {
   // Check if the current folder is a Git repository
   try {
     const isGitRepo = await checkIsGitRepo();
-    
+
     if (isGitRepo) {
       gitState.isRepo = true;
       await loadGitStatus(gitContent);
@@ -64,12 +66,12 @@ async function refreshGitPanel() {
 // Check if current folder is a Git repository
 async function checkIsGitRepo() {
   if (!rootDirectoryHandle) return false;
-  
+
   try {
     // Check for .git directory existence
     try {
       // Attempt to get the .git directory
-      await rootDirectoryHandle.getDirectoryHandle('.git');
+      await rootDirectoryHandle.getDirectoryHandle(".git");
       return true;
     } catch (e) {
       // .git directory doesn't exist
@@ -94,9 +96,9 @@ function showNoFolderMessage(container) {
   `;
 
   // Add click event to open folder button
-  const openFolderBtn = document.getElementById('git-open-folder');
+  const openFolderBtn = document.getElementById("git-open-folder");
   if (openFolderBtn) {
-    openFolderBtn.addEventListener('click', openFolder);
+    openFolderBtn.addEventListener("click", openFolder);
   }
 }
 
@@ -112,9 +114,9 @@ function showInitRepoMessage(container) {
   `;
 
   // Add click event to initialize repository button
-  const initRepoBtn = document.getElementById('git-init-repo');
+  const initRepoBtn = document.getElementById("git-init-repo");
   if (initRepoBtn) {
-    initRepoBtn.addEventListener('click', initializeGitRepo);
+    initRepoBtn.addEventListener("click", initializeGitRepo);
   }
 }
 
@@ -131,9 +133,9 @@ function showErrorMessage(container, message) {
   `;
 
   // Add click event to refresh button
-  const refreshBtn = document.getElementById('git-refresh');
+  const refreshBtn = document.getElementById("git-refresh");
   if (refreshBtn) {
-    refreshBtn.addEventListener('click', refreshGitPanel);
+    refreshBtn.addEventListener("click", refreshGitPanel);
   }
 }
 
@@ -146,19 +148,22 @@ async function initializeGitRepo() {
 
   try {
     // Execute git init command
-    await executeGitCommand('git init');
-    
+    await executeGitCommand("git init");
+
     // Notify user
     showNotification("Git repository initialized successfully!");
-    
+
     // Refresh Git panel
     await refreshGitPanel();
-    
+
     // Update status bar
     updateStatusBarGitInfo();
   } catch (error) {
     console.error("Error initializing Git repository:", error);
-    showNotification(`Error initializing Git repository: ${error.message}`, 5000);
+    showNotification(
+      `Error initializing Git repository: ${error.message}`,
+      5000
+    );
   }
 }
 
@@ -166,16 +171,16 @@ async function initializeGitRepo() {
 async function loadGitStatus(container) {
   try {
     // Get current branch
-    const branchOutput = await executeGitCommand('git branch --show-current');
-    gitState.currentBranch = branchOutput.trim() || 'HEAD';
+    const branchOutput = await executeGitCommand("git branch --show-current");
+    gitState.currentBranch = branchOutput.trim() || "HEAD";
 
     // Get status
-    const statusOutput = await executeGitCommand('git status --porcelain');
+    const statusOutput = await executeGitCommand("git status --porcelain");
     processGitStatus(statusOutput);
 
     // Update UI
     updateGitUI(container);
-    
+
     // Update status bar
     updateStatusBarGitInfo();
   } catch (error) {
@@ -193,39 +198,39 @@ function processGitStatus(output) {
   if (!output.trim()) return; // No changes
 
   // Process each line
-  const lines = output.trim().split('\n');
-  
+  const lines = output.trim().split("\n");
+
   for (const line of lines) {
     if (line.length < 3) continue;
-    
+
     const index = line[0];
     const workingTree = line[1];
     const filePath = line.substring(3);
-    
+
     // Staged changes
-    if (index !== ' ' && index !== '?') {
+    if (index !== " " && index !== "?") {
       gitState.changes.staged.push({
         status: getStatusDescription(index),
         path: filePath,
-        type: index
+        type: index,
       });
     }
-    
+
     // Unstaged changes
-    if (workingTree !== ' ' && workingTree !== '?') {
+    if (workingTree !== " " && workingTree !== "?") {
       gitState.changes.unstaged.push({
         status: getStatusDescription(workingTree),
         path: filePath,
-        type: workingTree
+        type: workingTree,
       });
     }
-    
+
     // Untracked files
-    if (index === '?' && workingTree === '?') {
+    if (index === "?" && workingTree === "?") {
       gitState.changes.unstaged.push({
-        status: 'Untracked',
+        status: "Untracked",
         path: filePath,
-        type: '?'
+        type: "?",
       });
     }
   }
@@ -234,15 +239,24 @@ function processGitStatus(output) {
 // Get human-readable status description
 function getStatusDescription(code) {
   switch (code) {
-    case 'M': return 'Modified';
-    case 'A': return 'Added';
-    case 'D': return 'Deleted';
-    case 'R': return 'Renamed';
-    case 'C': return 'Copied';
-    case 'U': return 'Conflict';
-    case '?': return 'Untracked';
-    case '!': return 'Ignored';
-    default: return 'Unknown';
+    case "M":
+      return "Modified";
+    case "A":
+      return "Added";
+    case "D":
+      return "Deleted";
+    case "R":
+      return "Renamed";
+    case "C":
+      return "Copied";
+    case "U":
+      return "Conflict";
+    case "?":
+      return "Untracked";
+    case "!":
+      return "Ignored";
+    default:
+      return "Unknown";
   }
 }
 
@@ -252,7 +266,7 @@ function updateGitUI(container) {
   const stagedCount = gitState.changes.staged.length;
   const unstagedCount = gitState.changes.unstaged.length;
   const totalChanges = stagedCount + unstagedCount;
-  
+
   let content = `
     <div class="git-header">
       <div class="git-branch">
@@ -263,7 +277,9 @@ function updateGitUI(container) {
         <button class="git-action-btn" title="Refresh" id="git-refresh-btn">
           <i class="fas fa-sync"></i>
         </button>
-        <button class="git-action-btn" title="Commit Changes" id="git-commit-btn" ${totalChanges === 0 ? 'disabled' : ''}>
+        <button class="git-action-btn" title="Commit Changes" id="git-commit-btn" ${
+          totalChanges === 0 ? "disabled" : ""
+        }>
           <i class="fas fa-check"></i>
         </button>
       </div>
@@ -289,7 +305,7 @@ function updateGitUI(container) {
     if (stagedCount === 0) {
       content += `<div class="git-empty-changes">No staged changes</div>`;
     } else {
-      gitState.changes.staged.forEach(change => {
+      gitState.changes.staged.forEach((change) => {
         content += createChangeItemHTML(change, true);
       });
     }
@@ -314,7 +330,7 @@ function updateGitUI(container) {
     if (unstagedCount === 0) {
       content += `<div class="git-empty-changes">No unstaged changes</div>`;
     } else {
-      gitState.changes.unstaged.forEach(change => {
+      gitState.changes.unstaged.forEach((change) => {
         content += createChangeItemHTML(change, false);
       });
     }
@@ -328,7 +344,9 @@ function updateGitUI(container) {
     content += `
       <div class="git-commit-section">
         <textarea id="commit-message" placeholder="Commit message" rows="3"></textarea>
-        <button class="git-btn" id="git-commit-changes" ${stagedCount === 0 ? 'disabled' : ''}>
+        <button class="git-btn" id="git-commit-changes" ${
+          stagedCount === 0 ? "disabled" : ""
+        }>
           <i class="fas fa-check"></i> Commit
         </button>
       </div>
@@ -344,20 +362,31 @@ function updateGitUI(container) {
 
 // Create HTML for a change item
 function createChangeItemHTML(change, isStaged) {
-  let iconClass = '';
-  
-  switch(change.type) {
-    case 'M': iconClass = 'fa-pen'; break;
-    case 'A': iconClass = 'fa-plus'; break;
-    case 'D': iconClass = 'fa-trash'; break;
-    case 'R': iconClass = 'fa-exchange-alt'; break;
-    case '?': iconClass = 'fa-question'; break;
-    default: iconClass = 'fa-file';
+  let iconClass = "";
+
+  switch (change.type) {
+    case "M":
+      iconClass = "fa-pen";
+      break;
+    case "A":
+      iconClass = "fa-plus";
+      break;
+    case "D":
+      iconClass = "fa-trash";
+      break;
+    case "R":
+      iconClass = "fa-exchange-alt";
+      break;
+    case "?":
+      iconClass = "fa-question";
+      break;
+    default:
+      iconClass = "fa-file";
   }
 
-  const actionIcon = isStaged ? 'fa-minus' : 'fa-plus';
-  const actionTitle = isStaged ? 'Unstage Changes' : 'Stage Changes';
-  
+  const actionIcon = isStaged ? "fa-minus" : "fa-plus";
+  const actionTitle = isStaged ? "Unstage Changes" : "Stage Changes";
+
   return `
     <div class="git-change-item" data-path="${change.path}" data-staged="${isStaged}">
       <div class="git-change-icon">
@@ -379,32 +408,32 @@ function createChangeItemHTML(change, isStaged) {
 // Add event listeners for Git UI elements
 function addGitEventListeners() {
   // Refresh button
-  const refreshBtn = document.getElementById('git-refresh-btn');
+  const refreshBtn = document.getElementById("git-refresh-btn");
   if (refreshBtn) {
-    refreshBtn.addEventListener('click', refreshGitPanel);
+    refreshBtn.addEventListener("click", refreshGitPanel);
   }
-  
+
   // Commit button
-  const commitBtn = document.getElementById('git-commit-changes');
+  const commitBtn = document.getElementById("git-commit-changes");
   if (commitBtn) {
-    commitBtn.addEventListener('click', commitChanges);
+    commitBtn.addEventListener("click", commitChanges);
   }
-  
+
   // Stage all button
-  const stageAllBtn = document.getElementById('stage-all-btn');
+  const stageAllBtn = document.getElementById("stage-all-btn");
   if (stageAllBtn) {
-    stageAllBtn.addEventListener('click', stageAllChanges);
+    stageAllBtn.addEventListener("click", stageAllChanges);
   }
-  
+
   // Individual change actions
-  const changeItems = document.querySelectorAll('.git-change-item');
-  changeItems.forEach(item => {
-    const actionBtn = item.querySelector('.git-change-action button');
+  const changeItems = document.querySelectorAll(".git-change-item");
+  changeItems.forEach((item) => {
+    const actionBtn = item.querySelector(".git-change-action button");
     if (actionBtn) {
-      actionBtn.addEventListener('click', () => {
-        const path = item.getAttribute('data-path');
-        const isStaged = item.getAttribute('data-staged') === 'true';
-        
+      actionBtn.addEventListener("click", () => {
+        const path = item.getAttribute("data-path");
+        const isStaged = item.getAttribute("data-staged") === "true";
+
         if (isStaged) {
           unstageChange(path);
         } else {
@@ -412,10 +441,10 @@ function addGitEventListeners() {
         }
       });
     }
-    
+
     // Double click to open file
-    item.addEventListener('dblclick', () => {
-      const path = item.getAttribute('data-path');
+    item.addEventListener("dblclick", () => {
+      const path = item.getAttribute("data-path");
       openChangedFile(path);
     });
   });
@@ -427,9 +456,9 @@ async function openChangedFile(filePath) {
 
   try {
     // Split path into folder parts
-    const parts = filePath.split('/');
+    const parts = filePath.split("/");
     const fileName = parts.pop();
-    
+
     // Navigate to the file's directory
     let currentDir = rootDirectoryHandle;
     for (const part of parts) {
@@ -437,17 +466,18 @@ async function openChangedFile(filePath) {
         currentDir = await currentDir.getDirectoryHandle(part);
       }
     }
-    
+
     // Get the file
     const fileHandle = await currentDir.getFileHandle(fileName);
     const file = await fileHandle.getFile();
     const content = await file.text();
-    
+
     // Store file handle and content
-    const fullPath = parts.length > 0 ? `${parts.join('/')}/${fileName}` : fileName;
+    const fullPath =
+      parts.length > 0 ? `${parts.join("/")}/${fileName}` : fileName;
     fileHandles[fullPath] = fileHandle;
     fileContents[fullPath] = content;
-    
+
     // Open file in editor
     openFile(fullPath);
   } catch (error) {
@@ -461,7 +491,7 @@ async function stageChange(filePath) {
   try {
     // Execute git add command
     await executeGitCommand(`git add "${filePath}"`);
-    
+
     // Refresh Git panel
     await refreshGitPanel();
   } catch (error) {
@@ -475,7 +505,7 @@ async function unstageChange(filePath) {
   try {
     // Execute git reset command
     await executeGitCommand(`git reset HEAD "${filePath}"`);
-    
+
     // Refresh Git panel
     await refreshGitPanel();
   } catch (error) {
@@ -488,8 +518,8 @@ async function unstageChange(filePath) {
 async function stageAllChanges() {
   try {
     // Execute git add command
-    await executeGitCommand('git add .');
-    
+    await executeGitCommand("git add .");
+
     // Refresh Git panel
     await refreshGitPanel();
   } catch (error) {
@@ -500,27 +530,27 @@ async function stageAllChanges() {
 
 // Commit changes
 async function commitChanges() {
-  const messageElem = document.getElementById('commit-message');
+  const messageElem = document.getElementById("commit-message");
   if (!messageElem) return;
-  
+
   const message = messageElem.value.trim();
-  
+
   if (!message) {
     showNotification("Please enter a commit message", 3000);
     messageElem.focus();
     return;
   }
-  
+
   try {
     // Execute git commit command
     await executeGitCommand(`git commit -m "${message}"`);
-    
+
     // Clear commit message
-    messageElem.value = '';
-    
+    messageElem.value = "";
+
     // Notify user
     showNotification("Changes committed successfully!");
-    
+
     // Refresh Git panel
     await refreshGitPanel();
   } catch (error) {
@@ -537,19 +567,19 @@ async function executeGitCommand(command) {
 
   // Show command in terminal
   if (isTerminalOpen && terminal) {
-    terminal.appendOutput(`$ ${command}`, 'command-line');
+    terminal.appendOutput(`$ ${command}`, "command-line");
   }
 
   try {
-    const response = await fetch('/execute-command', {
-      method: 'POST',
+    const response = await fetch("/execute-command", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         command,
-        cwd: rootDirectoryHandle.name // Pass the current directory name
-      })
+        cwd: rootDirectoryHandle.name, // Pass the current directory name
+      }),
     });
 
     if (!response.ok) {
@@ -561,7 +591,7 @@ async function executeGitCommand(command) {
     if (data.error && data.error.trim()) {
       // Show error in terminal if it's open
       if (isTerminalOpen && terminal) {
-        terminal.appendOutput(data.error, 'error');
+        terminal.appendOutput(data.error, "error");
       }
       throw new Error(data.error);
     }
@@ -571,7 +601,7 @@ async function executeGitCommand(command) {
       terminal.appendOutput(data.output);
     }
 
-    return data.output || '';
+    return data.output || "";
   } catch (error) {
     console.error("Error executing Git command:", error);
     throw error;
@@ -580,17 +610,20 @@ async function executeGitCommand(command) {
 
 // Update Git info in status bar
 function updateStatusBarGitInfo() {
-  const statusBarGitItem = document.querySelector('.status-left .status-item:first-child');
-  
+  const statusBarGitItem = document.querySelector(
+    ".status-left .status-item:first-child"
+  );
+
   if (statusBarGitItem) {
     if (gitState.isRepo) {
       statusBarGitItem.innerHTML = `
         <i class="fas fa-code-branch"></i>
-        <span>${gitState.currentBranch || 'main'}</span>
+        <span>${gitState.currentBranch || "main"}</span>
       `;
-      
+
       // Add changes indicator if there are changes
-      const totalChanges = gitState.changes.staged.length + gitState.changes.unstaged.length;
+      const totalChanges =
+        gitState.changes.staged.length + gitState.changes.unstaged.length;
       if (totalChanges > 0) {
         statusBarGitItem.innerHTML += ` <span class="git-changes-indicator">${totalChanges}</span>`;
       }
@@ -600,11 +633,13 @@ function updateStatusBarGitInfo() {
         <span>Not a git repository</span>
       `;
     }
-    
+
     // Add click handler to open git panel
-    statusBarGitItem.addEventListener('click', () => {
+    statusBarGitItem.addEventListener("click", () => {
       // Show git panel
-      const gitActivityIcon = document.querySelector('.activity-icon[data-panel="git"]');
+      const gitActivityIcon = document.querySelector(
+        '.activity-icon[data-panel="git"]'
+      );
       if (gitActivityIcon) {
         gitActivityIcon.click();
       }
