@@ -73,6 +73,25 @@
     margin-right: 5px;
     width: 16px;
     text-align: center;
+    font-size: 14px;
+}
+
+/* DevIcon specifically needs different styling */
+.file-item i.devicon-html5-plain,
+.file-item i.devicon-css3-plain,
+.file-item i.devicon-javascript-plain,
+.file-item i.devicon-react-original,
+.file-item i.devicon-typescript-plain,
+.file-item i.devicon-python-plain,
+.file-item i.devicon-java-plain,
+.file-item i.devicon-ruby-plain,
+.file-item i.devicon-cplusplus-plain,
+.file-item i.devicon-c-plain,
+.file-item i.devicon-csharp-plain,
+.file-item i.devicon-go-plain,
+.file-item i.devicon-php-plain,
+.file-item i.devicon-mysql-plain {
+    font-size: 14px;
 }
 
 .folder-content {
@@ -95,8 +114,65 @@
     color: #dcb67a;
 }
 
+/* File Type Icons - Colors */
+.colored {
+    /* DevIcon handles coloring internally */
+}
+
 .file-item i.fa-file-code {
     color: #6a9955;
+}
+
+.file-item i.fa-file-image {
+    color: #44a7f5;
+}
+
+.file-item i.fa-file-pdf {
+    color: #f40f02;
+}
+
+.file-item i.fa-file-word {
+    color: #2b579a;
+}
+
+.file-item i.fa-file-excel {
+    color: #217346;
+}
+
+.file-item i.fa-file-powerpoint {
+    color: #d24726;
+}
+
+.file-item i.fa-file-zipper {
+    color: #f7b731;
+}
+
+.file-item i.fa-file-audio {
+    color: #f542e0;
+}
+
+.file-item i.fa-file-video {
+    color: #f55442;
+}
+
+.file-item i.fa-file-lines {
+    color: #8d8d8d;
+}
+
+.file-item i.fa-terminal {
+    color: #4AF626;
+}
+
+.file-item i.fa-database {
+    color: #336791;
+}
+
+.file-item i.yaml-icon {
+    color: #CB171E;
+}
+
+.file-item i.json-icon {
+    color: #fac54a;  /* Distinctive gold color for JSON files */
 }
 
 /* Inline Edit Input Styles */

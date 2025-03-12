@@ -133,18 +133,18 @@ function showFileContextMenu(x, y, item) {
   // Add menu items based on item type
   if (isFolder) {
     contextMenu.innerHTML = `
-            <div class="context-menu-item" data-action="new-file"><i class="fas fa-file"></i>New File</div>
-            <div class="context-menu-item" data-action="new-folder"><i class="fas fa-folder"></i>New Folder</div>
+            <div class="context-menu-item" data-action="new-file"><i class="fa-solid fa-file"></i>New File</div>
+            <div class="context-menu-item" data-action="new-folder"><i class="fa-solid fa-folder"></i>New Folder</div>
             <div class="context-menu-separator"></div>
-            <div class="context-menu-item" data-action="rename"><i class="fas fa-i-cursor"></i>Rename</div>
-            <div class="context-menu-item" data-action="delete"><i class="fas fa-trash"></i>Delete</div>
+            <div class="context-menu-item" data-action="rename"><i class="fa-solid fa-pen-to-square"></i>Rename</div>
+            <div class="context-menu-item" data-action="delete"><i class="fa-solid fa-trash"></i>Delete</div>
         `;
   } else if (isFile) {
     contextMenu.innerHTML = `
-            <div class="context-menu-item" data-action="open"><i class="fas fa-external-link-alt"></i>Open</div>
+            <div class="context-menu-item" data-action="open"><i class="fa-solid fa-arrow-up-right-from-square"></i>Open</div>
             <div class="context-menu-separator"></div>
-            <div class="context-menu-item" data-action="rename"><i class="fas fa-i-cursor"></i>Rename</div>
-            <div class="context-menu-item" data-action="delete"><i class="fas fa-trash"></i>Delete</div>
+            <div class="context-menu-item" data-action="rename"><i class="fa-solid fa-pen-to-square"></i>Rename</div>
+            <div class="context-menu-item" data-action="delete"><i class="fa-solid fa-trash"></i>Delete</div>
         `;
   }
 
@@ -310,7 +310,7 @@ function createInlineNewFileInput(parentFolder) {
   const newFileItem = document.createElement("div");
   newFileItem.className = "file-item editing";
   newFileItem.innerHTML = `
-    <i class="fas fa-file-code"></i>
+    <i class="fa-solid fa-file"></i>
     <input type="text" class="inline-edit-input" placeholder="Enter file name...">
   `;
 
@@ -388,7 +388,7 @@ function createInlineNewFolderInput(parentFolder) {
   newFolderItem.className = "folder-item editing";
   newFolderItem.innerHTML = `
     <div class="folder-header">
-      <i class="fas fa-folder"></i>
+      <i class="fa-solid fa-folder"></i>
       <input type="text" class="inline-edit-input" placeholder="Enter folder name...">
     </div>
   `;
@@ -462,27 +462,7 @@ async function createNewFile(fileName, parentFolder) {
 
       // Determine file icon based on extension
       const extension = fileName.split(".").pop().toLowerCase();
-      let fileIcon = "fa-file-code";
-
-      if (["jpg", "jpeg", "png", "gif", "svg", "webp"].includes(extension)) {
-        fileIcon = "fa-file-image";
-      } else if (["pdf"].includes(extension)) {
-        fileIcon = "fa-file-pdf";
-      } else if (["doc", "docx"].includes(extension)) {
-        fileIcon = "fa-file-word";
-      } else if (["xls", "xlsx"].includes(extension)) {
-        fileIcon = "fa-file-excel";
-      } else if (["ppt", "pptx"].includes(extension)) {
-        fileIcon = "fa-file-powerpoint";
-      } else if (["zip", "rar", "7z", "tar", "gz"].includes(extension)) {
-        fileIcon = "fa-file-archive";
-      } else if (["mp3", "wav", "ogg"].includes(extension)) {
-        fileIcon = "fa-file-audio";
-      } else if (["mp4", "avi", "mov", "wmv"].includes(extension)) {
-        fileIcon = "fa-file-video";
-      } else if (["txt", "md"].includes(extension)) {
-        fileIcon = "fa-file-alt";
-      }
+      let fileIcon = getFileIconByExtension(extension);
 
       fileItem.innerHTML = `
         <i class="fas ${fileIcon}"></i>
@@ -527,8 +507,13 @@ async function createNewFile(fileName, parentFolder) {
     const fileItem = document.createElement("div");
     fileItem.className = "file-item";
     fileItem.setAttribute("data-file", fileName);
+
+    // Determine file icon based on extension
+    const extension = fileName.split(".").pop().toLowerCase();
+    let fileIcon = getFileIconByExtension(extension);
+    
     fileItem.innerHTML = `
-      <i class="fas fa-file-code"></i>
+      <i class="fas ${fileIcon}"></i>
       <span>${fileName}</span>
     `;
 
@@ -746,4 +731,97 @@ async function createNewFolder(folderName, parentFolder) {
       }
     }
   }
+}
+
+// Get the appropriate file icon based on file extension
+function getFileIconByExtension(extension) {
+  // Default icon
+  let fileIcon = "fa-file-code";
+  
+  // Image files
+  if (["jpg", "jpeg", "png", "gif", "svg", "webp", "bmp", "ico"].includes(extension)) {
+    return "fa-file-image";
+  }
+  
+  // Document files
+  if (["pdf"].includes(extension)) {
+    return "fa-file-pdf";
+  }
+  if (["doc", "docx", "rtf", "odt"].includes(extension)) {
+    return "fa-file-word";
+  }
+  if (["xls", "xlsx", "ods", "csv"].includes(extension)) {
+    return "fa-file-excel";
+  }
+  if (["ppt", "pptx", "odp"].includes(extension)) {
+    return "fa-file-powerpoint";
+  }
+  
+  // Archive files
+  if (["zip", "rar", "7z", "tar", "gz", "bz2"].includes(extension)) {
+    return "fa-file-archive";
+  }
+  
+  // Media files
+  if (["mp3", "wav", "ogg", "flac", "aac"].includes(extension)) {
+    return "fa-file-audio";
+  }
+  if (["mp4", "avi", "mov", "wmv", "mkv", "webm"].includes(extension)) {
+    return "fa-file-video";
+  }
+  
+  // Text files
+  if (["txt", "md", "markdown", "log"].includes(extension)) {
+    return "fa-file-alt";
+  }
+  
+  // Programming language files - specialized icons
+  const langIcons = {
+    // Web
+    "html": "fa-html5",
+    "htm": "fa-html5",
+    "css": "fa-css3-alt",
+    "js": "fa-js",
+    "jsx": "fa-react",
+    "ts": "fa-file-code ts-icon",
+    "tsx": "fa-react ts-icon",
+    
+    // Backend/Server
+    "php": "fa-php",
+    "py": "fa-python",
+    "java": "fa-java",
+    "rb": "fa-gem", // Ruby
+    "go": "fa-file-code go-icon",
+    "cs": "fa-microsoft",
+    "vb": "fa-microsoft",
+    
+    // Configuration
+    "json": "fa-brands fa-js json-icon", // Updated JSON icon
+    "xml": "fa-file-code xml-icon",
+    "yaml": "fa-file-code yaml-icon",
+    "yml": "fa-file-code yaml-icon",
+    "toml": "fa-file-code",
+    "ini": "fa-file-code",
+    "config": "fa-cog",
+    
+    // Shell/Scripts
+    "sh": "fa-terminal",
+    "bash": "fa-terminal",
+    "bat": "fa-terminal",
+    "ps1": "fa-terminal", // PowerShell
+    "cmd": "fa-terminal",
+    
+    // Database
+    "sql": "fa-database",
+    "sqlite": "fa-database",
+    "db": "fa-database",
+    
+    // C family
+    "c": "fa-file-code c-icon",
+    "cpp": "fa-file-code cpp-icon",
+    "h": "fa-file-code c-icon",
+    "hpp": "fa-file-code cpp-icon"
+  };
+  
+  return langIcons[extension] || fileIcon;
 }
