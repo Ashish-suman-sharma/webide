@@ -44,13 +44,29 @@ function initOpenFileButton() {
   }
 
   if (newFileBtn) {
-    newFileBtn.addEventListener("click", () => createNewFile("untitled.txt"));
+    newFileBtn.addEventListener("click", () => {
+      if (typeof createInlineNewFileInput === "function") {
+        createInlineNewFileInput();
+      }
+    });
   }
 
   if (welcomeNewFileBtn) {
-    welcomeNewFileBtn.addEventListener("click", () =>
-      createNewFile("untitled.txt")
-    );
+    welcomeNewFileBtn.addEventListener("click", () => {
+      if (
+        rootDirectoryHandle &&
+        typeof createInlineNewFileInput === "function"
+      ) {
+        // If we have an open folder, use inline creation
+        createInlineNewFileInput();
+      } else {
+        // Otherwise, prompt for filename
+        const fileName = prompt("Enter file name:");
+        if (fileName && fileName.trim()) {
+          createNewFile(fileName.trim());
+        }
+      }
+    });
   }
 }
 

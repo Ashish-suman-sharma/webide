@@ -107,7 +107,20 @@ function initWelcomePage() {
 
   if (newFileBtn) {
     newFileBtn.addEventListener("click", () => {
-      createNewFile("untitled.txt");
+      // If we have a folder open, use the inline creation method
+      if (
+        rootDirectoryHandle &&
+        typeof createInlineNewFileInput === "function"
+      ) {
+        createInlineNewFileInput();
+      } else {
+        // For in-memory files without a folder open, create a temporary file
+        const fileName = prompt("Enter file name:");
+        if (fileName && fileName.trim()) {
+          // Don't create untitled.txt, use the user-provided name
+          createNewFile(fileName.trim());
+        }
+      }
     });
   }
 

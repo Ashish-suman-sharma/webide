@@ -92,7 +92,7 @@ function initFileOperations() {
   const newFileButton = document.querySelector(".panel-actions .fa-plus");
   if (newFileButton) {
     newFileButton.addEventListener("click", () => {
-      showNewFileDialog();
+      createInlineNewFileInput();
     });
   }
 }
@@ -187,10 +187,10 @@ function removeContextMenu() {
 function handleContextMenuAction(action, item) {
   switch (action) {
     case "new-file":
-      showNewFileDialog(item);
+      createInlineNewFileInput(item);
       break;
     case "new-folder":
-      showNewFolderDialog(item);
+      createInlineNewFolderInput(item);
       break;
     case "open":
       openFileFromExplorer(item);
@@ -272,28 +272,170 @@ function deleteFileExplorerItem(item) {
   }
 }
 
-// Show new file dialog
-function showNewFileDialog(parentFolder) {
-  // In a real app, this would show a dialog to enter file name
-  // For simplicity, we'll just use a prompt
-  const fileName = prompt("Enter file name:");
-  if (fileName) {
-    createNewFile(fileName, parentFolder);
+// Create an inline input field for new file name
+function createInlineNewFileInput(parentFolder) {
+  // Determine where to place the new item
+  let container;
+  if (parentFolder) {
+    // Make sure the folder is open
+    if (!parentFolder.classList.contains("open")) {
+      parentFolder.classList.add("open");
+
+      // Update folder icon
+      const folderHeader = parentFolder.querySelector(".folder-header");
+      const folderIcon = folderHeader.querySelector(".fa-folder");
+      if (folderIcon) {
+        folderIcon.classList.remove("fa-folder");
+        folderIcon.classList.add("fa-folder-open");
+      }
+
+      // Update chevron icon
+      const chevronIcon = folderHeader.querySelector(".fa-chevron-right");
+      if (chevronIcon) {
+        chevronIcon.style.transform = "rotate(90deg)";
+      }
+    }
+
+    container = parentFolder.querySelector(".folder-content");
+  } else {
+    // Use the root folder content as container
+    container =
+      document.querySelector(".folder-content") ||
+      document.querySelector(".file-explorer");
   }
+
+  if (!container) return;
+
+  // Create a temporary element for the new file input
+  const newFileItem = document.createElement("div");
+  newFileItem.className = "file-item editing";
+  newFileItem.innerHTML = `
+    <i class="fas fa-file-code"></i>
+    <input type="text" class="inline-edit-input" placeholder="Enter file name...">
+  `;
+
+  container.appendChild(newFileItem);
+
+  // Focus the input
+  const input = newFileItem.querySelector(".inline-edit-input");
+  input.focus();
+
+  // Handle input events
+  input.addEventListener("keydown", async (e) => {
+    if (e.key === "Enter") {
+      const fileName = input.value.trim();
+      if (fileName) {
+        // Remove the temporary element
+        container.removeChild(newFileItem);
+
+        // Create the actual file
+        await createNewFile(fileName, parentFolder);
+      } else {
+        container.removeChild(newFileItem);
+      }
+    } else if (e.key === "Escape") {
+      container.removeChild(newFileItem);
+    }
+  });
+
+  // Handle blur event (when clicking outside)
+  input.addEventListener("blur", () => {
+    // Small delay to allow for Enter key processing first
+    setTimeout(() => {
+      if (container.contains(newFileItem)) {
+        container.removeChild(newFileItem);
+      }
+    }, 100);
+  });
 }
 
-// Show new folder dialog
-function showNewFolderDialog(parentFolder) {
-  // In a real app, this would show a dialog to enter folder name
-  // For simplicity, we'll just use a prompt
-  const folderName = prompt("Enter folder name:");
-  if (folderName) {
-    createNewFolder(folderName, parentFolder);
+// Create an inline input field for new folder name
+function createInlineNewFolderInput(parentFolder) {
+  // Determine where to place the new item
+  let container;
+  if (parentFolder) {
+    // Make sure the folder is open
+    if (!parentFolder.classList.contains("open")) {
+      parentFolder.classList.add("open");
+
+      // Update folder icon
+      const folderHeader = parentFolder.querySelector(".folder-header");
+      const folderIcon = folderHeader.querySelector(".fa-folder");
+      if (folderIcon) {
+        folderIcon.classList.remove("fa-folder");
+        folderIcon.classList.add("fa-folder-open");
+      }
+
+      // Update chevron icon
+      const chevronIcon = folderHeader.querySelector(".fa-chevron-right");
+      if (chevronIcon) {
+        chevronIcon.style.transform = "rotate(90deg)";
+      }
+    }
+
+    container = parentFolder.querySelector(".folder-content");
+  } else {
+    // Use the root folder content as container
+    container =
+      document.querySelector(".folder-content") ||
+      document.querySelector(".file-explorer");
   }
+
+  if (!container) return;
+
+  // Create a temporary element for the new folder input
+  const newFolderItem = document.createElement("div");
+  newFolderItem.className = "folder-item editing";
+  newFolderItem.innerHTML = `
+    <div class="folder-header">
+      <i class="fas fa-folder"></i>
+      <input type="text" class="inline-edit-input" placeholder="Enter folder name...">
+    </div>
+  `;
+
+  container.appendChild(newFolderItem);
+
+  // Focus the input
+  const input = newFolderItem.querySelector(".inline-edit-input");
+  input.focus();
+
+  // Handle input events
+  input.addEventListener("keydown", async (e) => {
+    if (e.key === "Enter") {
+      const folderName = input.value.trim();
+      if (folderName) {
+        // Remove the temporary element
+        container.removeChild(newFolderItem);
+
+        // Create the actual folder
+        await createNewFolder(folderName, parentFolder);
+      } else {
+        container.removeChild(newFolderItem);
+      }
+    } else if (e.key === "Escape") {
+      container.removeChild(newFolderItem);
+    }
+  });
+
+  // Handle blur event (when clicking outside)
+  input.addEventListener("blur", () => {
+    // Small delay to allow for Enter key processing first
+    setTimeout(() => {
+      if (container.contains(newFolderItem)) {
+        container.removeChild(newFolderItem);
+      }
+    }, 100);
+  });
 }
 
 // Create a new file in the file explorer
 async function createNewFile(fileName, parentFolder) {
+  // Check if filename is empty
+  if (!fileName || !fileName.trim()) {
+    console.error("Cannot create file with empty name");
+    return;
+  }
+
   // Check if we have an active file system and create file on disk
   if (rootDirectoryHandle) {
     try {

@@ -99,6 +99,37 @@
     color: #6a9955;
 }
 
+/* Inline Edit Input Styles */
+.file-item.editing,
+.folder-item.editing {
+    padding: 3px 0;
+}
+
+.file-item.editing {
+    display: flex;
+    align-items: center;
+    padding: 3px 10px;
+}
+
+.folder-item.editing .folder-header {
+    padding: 3px 10px;
+}
+
+.inline-edit-input {
+    background-color: #3c3c3c;
+    border: 1px solid var(--vscode-statusbar-bg);
+    color: var(--vscode-text);
+    font-size: 13px;
+    padding: 2px 5px;
+    outline: none;
+    min-width: 100px;
+    margin-left: 5px;
+}
+
+.inline-edit-input:focus {
+    border-color: var(--vscode-statusbar-bg);
+}
+
 /* Empty Explorer Message Styles */
 .empty-explorer-message {
     padding: 20px;
