@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, "/")));
 
 // Endpoint to execute terminal commands
 app.post("/execute-command", (req, res) => {
-  const { command } = req.body;
+  const { command, cwd } = req.body;
 
   if (!command) {
     return res.status(400).json({ error: "Command is required" });
@@ -28,6 +28,7 @@ app.post("/execute-command", (req, res) => {
       maxBuffer: 1024 * 1024,
       shell: true,
       windowsHide: true,
+      cwd: cwd ? path.join(__dirname, cwd) : __dirname // Use the provided working directory
     },
     (error, stdout, stderr) => {
       console.log(
